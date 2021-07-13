@@ -1129,7 +1129,18 @@ export const completionSpec: Fig.Spec = {
     {
       name: "analyze-profile",
       description: "Analyzes build profile data",
-      options: [...sharedOptions],
+      options: [
+        {
+          name: "--distdir",
+          description:
+            "Additional places to search for archives before accessing the network to download them",
+          args: {
+            name: "path",
+            template: ["filepaths", "folders"],
+          },
+        },
+        ...sharedOptions,
+      ],
     },
     {
       name: "aquery",
