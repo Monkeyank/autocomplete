@@ -52,6 +52,375 @@ const pathArg: Fig.Arg = {
   template: "filepaths",
 };
 
+const bazelInternalConfigurationSharedOptions: Fig.Option[] = [
+  {
+    name: "--distdir",
+    description:
+      "Additional places to search for archives before accessing the network to download them",
+    args: {
+      name: "path",
+      template: ["filepaths", "folders"],
+    },
+  },
+  {
+    name: "--experimental_repository_cache_hardlinks",
+    description:
+      "The repository cache will hardlink the file in case of a cache hit, rather than copying. This is inteded to save disk space",
+  },
+  {
+    name: "--noexperimental_repository_cache_hardlinks",
+    description: "Disables --experimental_repository_cache_hardlinks",
+  },
+  {
+    name: "--experimental_repository_disable_download",
+    description: "If set, downloading external repositories is not allowed",
+  },
+  {
+    name: "--noexperimental_repository_disable_download",
+    description: "Disables experimental_repository_disable_download",
+  },
+  {
+    name: "--experimental_scale_timeouts",
+    description:
+      "Scale all timeouts in Starlark repository rules by this factor. In this way, external repositories can be made working on machines that are slower than the rule author expected, without changing the source code",
+    args: {
+      name: "double",
+      default: "1.0",
+    },
+  },
+  {
+    name: "--http_timeout_scaling",
+    description:
+      "Scale all timeouts related to http downloads by the given factor",
+    args: {
+      name: "double",
+      default: "1.0",
+    },
+  },
+  {
+    name: "--repository_cache",
+    description:
+      "Specifies the cache location of the downloaded values obtained during the fetching of external repositories. An empty string as argument requests the cache to be disabled",
+    args: {
+      name: "path",
+      template: ["filepaths", "folders"],
+    },
+  },
+];
+
+const affectsOutputSharedOptions: Fig.Option[] = [
+  {
+    name: "--experimental_repository_hash_file",
+    description:
+      "If non-empty, specifies a file containing a resolved value, against which the repository directory hashes should be verified",
+    args: {
+      name: "file",
+      template: "filepaths",
+    },
+  },
+  {
+    name: "--experimental_verify_repository_rules",
+    description:
+      "If list of repository rules for which the hash of the output directory should be verified",
+    dependsOn: ["--experimental_repository_hash_file"],
+    args: {
+      name: "string",
+      description: "rules",
+    },
+  },
+];
+
+const experimentalResolvedFileInsteadOfWorkspaceOption: Fig.Option = {
+  name: "--experimental_resolved_file_instead_of_workspace",
+  description:
+    "If non-empty read the specified resolved file instead of the WORKSPACE file",
+  args: {
+    name: "file",
+    template: "filepaths",
+  },
+};
+
+const experimentalDownloaderConfigOption: Fig.Option = {
+  name: "--experimental_downloader_config",
+  description:
+    "Specify a file to configure the remote downloader with. This file consists of lines, each of which starts with a directive (`allow`, `block` or `rewrite`) followed by either a host name (for `allow` and `block`) or two patterns, one to match against, and one to use as a substitute URL, with back-references starting from `$1`. It is possible for multiple `rewrite` directives for the same URL to be give, and in this case multiple URLs will be returned",
+  args: {
+    name: "file",
+    template: "filepaths",
+  },
+};
+
+const overrideRepositoryOption: Fig.Option = {
+  name: "--override_repository",
+  description: "Overrides a repository with a local directory",
+  args: {
+    name: "Mapping of repository name to path",
+    description: "Equals seperated",
+    template: "folders",
+  },
+};
+
+const queryOutputSemanticsSharedOptions: Fig.Option[] = [
+  {
+    name: "--aspect_deps",
+    description:
+      "How to resolve aspect dependencies when the output format is one of {xml,proto,record}",
+    args: {
+      name: "mode",
+      default: "conservative",
+      suggestions: [
+        {
+          name: "off",
+          description: "No aspect dependencies are resolved",
+        },
+        {
+          name: "conservative",
+          description:
+            "All declared aspect dependencies are added regardless of whether they are given the rule class of direct dependencies",
+        },
+        {
+          name: "precise",
+          description:
+            "Only those aspects are added that are possibly active given the rule class of the direct dependencies. Note that precise mode requires loading other packages to evaluate a single target thus making it slower than the other modes. Also note that even precise mode is not completely precise: the decision whether to compute an aspect is decided in the analysis phase, which is not run during 'bazel query'",
+        },
+      ],
+    },
+  },
+  {
+    name: "--graph:factored",
+    description:
+      "If true, then the graph will be emitted 'factored', i.e. topologically-equivalent nodes will be merged together and their labels concatenated. This option is only applicable to --output=graph",
+  },
+  {
+    name: "--nograph:factored",
+    description: "Disables --graph:factored",
+  },
+  {
+    name: "--graph:node_limit",
+    description:
+      "The maximum length of the label string for a graph node in the output. Longer labels will be truncated; -1 means no truncation. This option is only applicable to --output=graph",
+    args: {
+      name: "integer",
+      default: "512",
+    },
+  },
+  {
+    name: "--implicit_deps",
+    description:
+      "If enabled, implicit dependencies will be included in the dependency graph over which the query operates. An implicit dependency is one that is not explicitly specified in the BUILD file but added by bazel",
+  },
+  {
+    name: "--noimplicit_deps",
+    description: "Disables --implicit_deps",
+  },
+  {
+    name: "--include_artifacts",
+    description:
+      "Includes names of the action inputs and outputs in the output (potentially large)",
+  },
+  {
+    name: "--noinclude_artifacts",
+    description: "Disables --include_artifacts",
+  },
+  {
+    name: "--include_aspects",
+    description:
+      "aquery, cquery: whether to include aspect-generated actions in the output. query: no-op (aspects are always followed)",
+  },
+  {
+    name: "--noinclude_aspects",
+    description: "Disables --include_aspects",
+  },
+  {
+    name: "--include_commandline",
+    description:
+      "Includes the content of the action command lines in the output (potentially large)",
+  },
+  {
+    name: "--noinclude_commandline",
+    description:
+      "Excluedes the content of the action command lines in the output",
+  },
+  {
+    name: "--include_param_files",
+    description:
+      "Include the content of the param files used in the command (potentially large). Note: Enabling this flag will automatically enable the --include_commandline flag",
+  },
+  {
+    name: "--noinclude_param_files",
+    description: "Exclueds the content of the param files used in the command",
+  },
+  {
+    name: "--incompatible_display_source_file_location",
+    description:
+      "Displays the location of line 1 of source files in location outputs. This flag only exists for migration purposes. ",
+  },
+  {
+    name: "--noincompatible_display_source_file_location",
+    description: "Displays the target of the source file",
+  },
+  {
+    name: "--incompatible_proto_output_v2",
+    description:
+      "Whether aquery should print proto/textproto results with proto v2 (with ids in uint64 instead of string)",
+  },
+  {
+    name: "--noincompatible_proto_output_v2",
+    description:
+      "Whether aquery should print proto/textproto results with proto v2 (with ids in uint64 instead of string)",
+  },
+  {
+    name: "--infer_universe_scope",
+    description:
+      "If set and --universe_scope is unset, then a value of --universe_scope will be inferred as the list of unique target patterns in the query expression. Note that the --universe_scope value inferred for a query expression that uses universe-scoped functions (e.g.`allrdeps`) may not be what you want, so you should use this option only if you know what you are doing. If --universe_scope is set, then this option's value is ignored",
+  },
+  {
+    name: "--noinfer_universe_scope",
+    description: "Disables --infer_universe_scope",
+  },
+  {
+    name: "--line_terminator_null",
+    description: "Whether each format is terminated with \0 instead of newline",
+  },
+  {
+    name: "--noline_terminator_null",
+    description: "Whether each format is terminated with \0 instead of newline",
+  },
+  {
+    name: "--nodep_deps",
+    description:
+      "If enabled, deps from `nodep` attributes will be included in the dependency graph over which the query operates",
+  },
+  {
+    name: "--nonodep_deps",
+    description: "Disables --nodep_deps",
+  },
+  {
+    name: "--output",
+    description: "The format in which the aquery results should be printed",
+    args: {
+      name: "format",
+      default: "text",
+      suggestions: ["text", "textproto", "proto", "jsonproto"],
+    },
+  },
+  {
+    name: "--proto:default_values",
+    description:
+      "If true, attributes whose value is not explicitly specified in the BUILD file are included. This option is applicable to --output=proto",
+  },
+  {
+    name: "--noproto:default_values",
+    description:
+      "Attributes whose value is not explicitly specified in the BUILD file are are omitted",
+  },
+  {
+    name: "--proto:definition_stack",
+    description:
+      "Populate the definition_stack proto field, which records for each rule instance the Starlark call stack at the moment the rule's class was defined",
+  },
+  {
+    name: "--noproto:definition_stack",
+    description: "Disables --proto:definition_stack",
+  },
+  {
+    name: "--proto:flatten_selects",
+    description:
+      "If enabled, configurable attributes created by select() are flattened. For list types the flattened representation is a list containing each value of the select map exactly once. Scalar types are flattened to null",
+  },
+  {
+    name: "--noproto:flatten_selects",
+    description: "Disables --proto:flatten_selects",
+  },
+  {
+    name: "--proto:include_synthetic_attribute_hash",
+    description:
+      "Whether or not to calculate and populate the $internal_attr_hash attribute",
+  },
+  {
+    name: "--noproto:include_synthetic_attribute_hash",
+    description:
+      "Whether or not to calculate and populate the $internal_attr_hash attribute",
+  },
+  {
+    name: "--proto:instantiation_stack",
+    description:
+      "Populates the instantiation call stack of each rule. Note that this requires the stack to be present ",
+  },
+  {
+    name: "--noproto:instantiation_stack",
+    description: "Disables --proto:instantiation_stack",
+  },
+  {
+    name: "--proto:locations",
+    description:
+      "Whether to output location information in proto output at all",
+  },
+  {
+    name: "--noproto:locations",
+    description:
+      "Whether to output location information in proto output at all",
+  },
+  {
+    name: "--proto:output_rule_attrs",
+    description: "Comma separated list of attributes to include in output",
+    args: {
+      name: "list of options",
+      default: "all",
+      variadic: true,
+    },
+  },
+  {
+    name: "--proto:rule_inputs_and_outputs",
+    description:
+      "Whether or not to populate the rule_input and rule_output fields. ",
+  },
+  {
+    name: "--noproto:rule_inputs_and_outputs",
+    description:
+      "Whether or not to populate the rule_input and rule_output fields. ",
+  },
+  {
+    name: "--relative_locations",
+    description:
+      "If true, the location of BUILD files in xml and proto outputs will be relative. By default, the location output is an absolute path and will not be consistent across machines. You can set this option to true to have a consistent result across machines",
+  },
+  {
+    name: "--norelative_locations",
+    description: "Disables --relative_locations",
+  },
+  {
+    name: "--skyframe_state",
+    description:
+      "Without performing extra analysis, dump the current Action Graph from Skyframe. This flag is only available with --output=proto or --output=textproto",
+    dependsOn: ["--output"],
+  },
+  {
+    name: "--noskyframe_state",
+    description: "Disables --skyframe_state",
+    dependsOn: ["--output"],
+  },
+  {
+    name: "--tool_deps",
+    description:
+      "A 'host configuration' dependency edge, such as the one from any 'proto_library' rule to the Protocol Compiler, usually points to a tool executed during the build rather than a part of the same 'target' program. Cquery: If disabled, filters out all configured targets which cross a host or execution transition from the top-level target that discovered this configured target. That means if the top-level target is in the target configuration, only configured targets also in the target configuration will be returned. If the top-level target is in the host configuration, only host configured targets will be returned",
+  },
+  {
+    name: "--notool_deps",
+    description:
+      "Dependencies on 'host configuration' or 'execution' targets will not be included in the dependency graph over which the query operates",
+  },
+  {
+    name: "--universe_scope",
+    description:
+      "The query may be performed in the universe defined by the transitive closure of the specified targets. This option is used for the query and cquery commands. For cquery, the input to this option is the targets all answers are built under and so this option may affect configurations and transitions. If this option is not specified, the top-level targets are assumed to be the targets parsed from the query expression.",
+    args: {
+      name: "List of options",
+      variadic: true,
+    },
+  },
+];
+
 const sharedOptions: Fig.Option[] = [
   {
     name: "--experimental_oom_more_eagerly_threshold",
@@ -85,7 +454,7 @@ const sharedOptions: Fig.Option[] = [
   {
     name: "--experimental_allow_tags_propagation",
     description:
-      "If set to true, tags will be propagated from a target to the actions' execution requirements",
+      "If set to true, propagated from a target to the actions' execution requirements",
     args: booleanArg,
   },
   {
@@ -1130,22 +1499,34 @@ export const completionSpec: Fig.Spec = {
       name: "analyze-profile",
       description: "Analyzes build profile data",
       options: [
+        ...bazelInternalConfigurationSharedOptions,
+        ...affectsOutputSharedOptions,
         {
-          name: "--distdir",
+          name: "--dump",
           description:
-            "Additional places to search for archives before accessing the network to download them",
+            "output full profile data dump either in human-readable 'text' format or script-friendly 'raw' format",
           args: {
-            name: "path",
-            template: ["filepaths", "folders"],
+            name: "text or raw",
           },
         },
+        experimentalResolvedFileInsteadOfWorkspaceOption,
+        experimentalDownloaderConfigOption,
+        overrideRepositoryOption,
         ...sharedOptions,
       ],
     },
     {
       name: "aquery",
       description: "Executes a query on the post-analysis action graph",
-      options: [...sharedOptions],
+      options: [
+        ...bazelInternalConfigurationSharedOptions,
+        ...affectsOutputSharedOptions,
+        experimentalResolvedFileInsteadOfWorkspaceOption,
+        experimentalDownloaderConfigOption,
+        overrideRepositoryOption,
+        ...queryOutputSemanticsSharedOptions,
+        ...sharedOptions,
+      ],
     },
     {
       name: "canonicalize-flags",
