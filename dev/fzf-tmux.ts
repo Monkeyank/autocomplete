@@ -1,16 +1,16 @@
-export const completion: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "fzf-tmux",
   description: "Opens a fuzzy finder in a tmux pane",
   options: [
     {
       name: ["-x", "--extended"],
       description: "Enables extended-search mode",
-      exclusive: ["+x", "--no-extended"],
+      exclusiveOn: ["+x", "--no-extended"],
     },
     {
       name: ["+x", "--no-extended"],
       description: "Disables extended-search mode",
-      exclusive: ["-x", "--extended"],
+      exclusiveOn: ["-x", "--extended"],
     },
     {
       name: ["-e", "--exact"],
@@ -28,12 +28,12 @@ export const completion: Fig.Spec = {
     {
       name: "-i",
       description: "Case-insensitive match (default: smart-case match)",
-      exclusive: ["+i"],
+      exclusiveOn: ["+i"],
     },
     {
       name: "+i",
       description: "Case-sensitive match (default: smart-case match)",
-      exclusive: ["-i"],
+      exclusiveOn: ["-i"],
     },
     {
       name: "--literal",
@@ -300,7 +300,7 @@ export const completion: Fig.Spec = {
       description: "Preview window layout",
       args: {
         name: "options",
-        variadic: true,
+        isVariadic: true,
         default: "default: right:50%",
         suggestions: [
           "up",
@@ -370,3 +370,5 @@ export const completion: Fig.Spec = {
     },
   ],
 };
+
+export default completionSpec;

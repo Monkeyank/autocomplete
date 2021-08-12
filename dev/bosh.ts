@@ -23,7 +23,7 @@ const deployments: Fig.Generator = {
   },
 };
 
-export const completionSpec: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "bosh",
   description: "bosh cli to managed your bosh deployment",
   subcommands: [
@@ -273,7 +273,7 @@ export const completionSpec: Fig.Spec = {
       description: "SCP to/from instance(s)",
       args: {
         name: "PATH...",
-        variadic: true,
+        isVariadic: true,
         template: "filepaths",
       },
     },
@@ -620,7 +620,7 @@ export const completionSpec: Fig.Spec = {
       description: "Filter to show only given column(s)",
       args: {
         name: "name",
-        variadic: true,
+        isVariadic: true,
       },
     },
     {
@@ -641,3 +641,5 @@ export const completionSpec: Fig.Spec = {
     },
   ],
 };
+
+export default completionSpec;

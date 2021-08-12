@@ -279,7 +279,7 @@ const sharedOptions: Fig.Option[] = [
     args: {
       name: "paths",
       template: ["folders"],
-      variadic: true,
+      isVariadic: true,
     },
   },
   {
@@ -288,7 +288,7 @@ const sharedOptions: Fig.Option[] = [
     args: {
       name: "Folder or Files",
       template: ["folders", "filepaths"],
-      variadic: true,
+      isVariadic: true,
     },
   },
   {
@@ -344,7 +344,7 @@ const sharedOptions: Fig.Option[] = [
   { name: ["-h, –-help"], description: "Outputs usage information" },
 ];
 
-export const completion: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "pm2",
   description: "Daemon process manager",
   subcommands: [
@@ -534,7 +534,7 @@ export const completion: Fig.Spec = {
       description: "multiset eg `key1 val1 key2 val2`",
       args: {
         name: "key value",
-        variadic: true,
+        isVariadic: true,
       },
     },
     {
@@ -801,3 +801,5 @@ export const completion: Fig.Spec = {
   ],
   options: sharedOptions,
 };
+
+export default completionSpec;

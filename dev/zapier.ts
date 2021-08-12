@@ -12,7 +12,7 @@ const debugFlag: Fig.Option = {
   description: "Show extra debugging output.",
 };
 
-export const completionSpec: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "zapier-platform-cli",
   description:
     "The Zapier CLI is a developer-focused way to create and maintain Zapier integrations. See more at https://github.com/zapier/zapier-platform.",
@@ -142,7 +142,7 @@ export const completionSpec: Fig.Spec = {
           description:
             "The key-value pairs to set. Keys are case-insensitive. Each pair should be space separated and pairs should be separated by an `=`. For example: `A=123 B=456`",
           isOptional: true,
-          variadic: true,
+          isVariadic: true,
         },
       ],
     },
@@ -159,7 +159,7 @@ export const completionSpec: Fig.Spec = {
           name: "keys...",
           description: "The keys to unset. Keys are case-insensitive.",
           isOptional: true,
-          variadic: true,
+          isVariadic: true,
         },
       ],
       isDangerous: true,
@@ -560,3 +560,5 @@ export const completionSpec: Fig.Spec = {
     },
   ],
 };
+
+export default completionSpec;

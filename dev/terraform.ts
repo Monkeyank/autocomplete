@@ -407,10 +407,14 @@ const extraCommands: Fig.Subcommand[] = [
   },
 ];
 
-export const completionSpec: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "terraform",
   description: "Terraform CLI",
   options: globalOptions,
-  posixNoncompliantFlags: true,
+  parserDirectives: {
+    flagsArePosixNoncompliant: true,
+  },
   subcommands: [...mainCommands, ...otherCommands, ...extraCommands],
 };
+
+export default completionSpec;

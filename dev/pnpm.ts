@@ -341,7 +341,7 @@ const SUBCOMMANDS_MANAGE_DEPENDENCIES: Fig.Subcommand[] = [
       name: "Package",
       isOptional: true,
       generators: searchDependenciesGenerator,
-      variadic: true,
+      isVariadic: true,
     },
     options: [
       {
@@ -402,7 +402,7 @@ const SUBCOMMANDS_MANAGE_DEPENDENCIES: Fig.Subcommand[] = [
     args: {
       name: "Package",
       generators: searchDependenciesGenerator,
-      variadic: true,
+      isVariadic: true,
     },
     options: [
       {
@@ -436,7 +436,7 @@ const SUBCOMMANDS_MANAGE_DEPENDENCIES: Fig.Subcommand[] = [
       {
         name: "Package",
         generators: searchDependenciesGenerator,
-        variadic: true,
+        isVariadic: true,
       },
       { template: "filepaths" },
     ],
@@ -461,7 +461,7 @@ const SUBCOMMANDS_MANAGE_DEPENDENCIES: Fig.Subcommand[] = [
       {
         name: "Package",
         generators: searchDependenciesGenerator,
-        variadic: true,
+        isVariadic: true,
       },
       { template: "filepaths" },
     ],
@@ -485,7 +485,7 @@ const SUBCOMMANDS_MANAGE_DEPENDENCIES: Fig.Subcommand[] = [
       {
         name: "Package",
         generators: searchDependenciesGenerator,
-        variadic: true,
+        isVariadic: true,
       },
       { template: "filepaths" },
     ],
@@ -534,7 +534,7 @@ const SUBCOMMANDS_RUN_SCRIPTS: Fig.Subcommand[] = [
     args: {
       name: "Scripts",
       generators: searchScriptsGenerator,
-      variadic: true,
+      isVariadic: true,
     },
     options: [
       {
@@ -566,7 +566,7 @@ const SUBCOMMANDS_RUN_SCRIPTS: Fig.Subcommand[] = [
     args: {
       name: "Scripts",
       generators: searchDependenciesGenerator,
-      variadic: true,
+      isVariadic: true,
     },
     options: [
       {
@@ -725,7 +725,7 @@ const SUBCOMMANDS_REVIEW_DEPS: Fig.Subcommand[] = [
     args: {
       name: "Scripts",
       generators: searchDependenciesGenerator,
-      variadic: true,
+      isVariadic: true,
     },
     options: [
       {
@@ -981,13 +981,15 @@ const recursiveSubcommands = subcommands.filter((subcommand) => {
 SUBCOMMANDS_MISC[1].subcommands = recursiveSubcommands;
 
 // SPEC
-export const completionSpec: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "pnpm",
   description: "Fast, disk space efficient package manager",
   args: {
     name: "Scripts",
     generators: searchScriptsGenerator,
-    variadic: true,
+    isVariadic: true,
   },
   subcommands,
 };
+
+export default completionSpec;

@@ -9,7 +9,7 @@ const getServices: Fig.Generator = {
   splitOn: "\n",
 };
 
-export const completionSpec: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "run",
   description: "Run a one-off command on a service.",
   args: [{ generators: getServices }],
@@ -38,7 +38,7 @@ export const completionSpec: Fig.Spec = {
       description: "Set an environment variable (can be used multiple times)",
       args: {
         name: "KEY=VAL",
-        variadic: true,
+        isVariadic: true,
       },
     },
     {
@@ -46,7 +46,7 @@ export const completionSpec: Fig.Spec = {
       description: "Add or override a label (can be used multiple times)",
       args: {
         name: "KEY=VAL",
-        variadic: true,
+        isVariadic: true,
       },
     },
     {
@@ -102,3 +102,5 @@ export const completionSpec: Fig.Spec = {
     },
   ],
 };
+
+export default completionSpec;

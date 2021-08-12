@@ -9,7 +9,7 @@ const appGenerator = (path: string): Fig.Generator => ({
   },
 });
 
-export const completionSpec: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "open",
   description: "open files using default application",
   options: [
@@ -81,12 +81,14 @@ export const completionSpec: Fig.Spec = {
         "All remaining arguments are passed to the opened application in the argv parameter to main().  These arguments are not opened or interpreted by the open tool",
       args: {
         name: "Arguments",
-        variadic: true,
+        isVariadic: true,
       },
     },
   ],
   args: {
     template: ["filepaths", "folders"],
-    variadic: true,
+    isVariadic: true,
   },
 };
+
+export default completionSpec;

@@ -13,7 +13,7 @@ const generators: Record<string, Fig.Generator> = {
   },
 };
 
-export const completionSpec: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "brew",
   description: "Package manager for macOS",
   subcommands: [
@@ -106,7 +106,7 @@ export const completionSpec: Fig.Spec = {
       description: "Install <formula>",
 
       args: {
-        variadic: true,
+        isVariadic: true,
         name: "formula",
         description: "Formula or cask to install",
         generators: {
@@ -132,7 +132,7 @@ export const completionSpec: Fig.Spec = {
       name: "uninstall",
       description: "Uninstall <formula>",
       args: {
-        variadic: true,
+        isVariadic: true,
         name: "formula",
         generators: {
           script: "brew list -1",
@@ -171,7 +171,7 @@ export const completionSpec: Fig.Spec = {
 
           description: "Uninstalls the given cask",
           args: {
-            variadic: true,
+            isVariadic: true,
             generators: {
               script: "brew list -1 --cask",
               postProcess: function (out) {
@@ -214,7 +214,7 @@ export const completionSpec: Fig.Spec = {
         },
       ],
       args: {
-        variadic: true,
+        isVariadic: true,
         generators: generators.servicesGenerator,
       },
     },
@@ -264,7 +264,7 @@ export const completionSpec: Fig.Spec = {
             },
           ],
           args: {
-            variadic: true,
+            isVariadic: true,
             generators: generators.servicesGenerator,
           },
         },
@@ -281,7 +281,7 @@ export const completionSpec: Fig.Spec = {
             },
           ],
           args: {
-            variadic: true,
+            isVariadic: true,
             generators: generators.servicesGenerator,
           },
         },
@@ -298,7 +298,7 @@ export const completionSpec: Fig.Spec = {
             },
           ],
           args: {
-            variadic: true,
+            isVariadic: true,
             generators: generators.servicesGenerator,
           },
         },
@@ -315,7 +315,7 @@ export const completionSpec: Fig.Spec = {
             },
           ],
           args: {
-            variadic: true,
+            isVariadic: true,
             generators: generators.servicesGenerator,
           },
         },
@@ -359,3 +359,5 @@ export const completionSpec: Fig.Spec = {
     },
   ],
 };
+
+export default completionSpec;

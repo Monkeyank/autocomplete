@@ -1,4 +1,4 @@
-export const completion: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "prettier",
   description: "Run Prettier from the command line",
   icon: "https://prettier.io/icon.png",
@@ -9,7 +9,7 @@ export const completion: Fig.Spec = {
       args: {
         name: "file, dir, or glob",
         template: ["filepaths", "folders"],
-        variadic: true,
+        isVariadic: true,
       },
     },
     {
@@ -164,7 +164,7 @@ export const completion: Fig.Spec = {
       name: "--config",
       description:
         "Path to a Prettier configuration file (.prettierrc, package.json, prettier.config.js)",
-      exclusive: ["--no-config"],
+      exclusiveOn: ["--no-config"],
       args: {
         name: "path",
         template: "filepaths",
@@ -173,7 +173,7 @@ export const completion: Fig.Spec = {
     {
       name: "--no-config",
       description: "Do not look for a configuration file",
-      exclusive: ["--config"],
+      exclusiveOn: ["--config"],
     },
     {
       name: "--config-precedence",
@@ -223,7 +223,7 @@ export const completion: Fig.Spec = {
       args: {
         name: "path",
         template: "folders",
-        variadic: true,
+        isVariadic: true,
       },
     },
     {
@@ -234,7 +234,7 @@ export const completion: Fig.Spec = {
       name: "--cursor-offset",
       description:
         "Print (to stderr) where a cursor at the given position would move to after formatting",
-      exclusive: ["--range-start", "--range-end"],
+      exclusiveOn: ["--range-start", "--range-end"],
       args: {
         name: "int",
         default: "-1",
@@ -243,7 +243,7 @@ export const completion: Fig.Spec = {
     {
       name: "--range-end",
       description: "Format code ending at a given character offset (exclusive)",
-      exclusive: ["--cursor-offset"],
+      exclusiveOn: ["--cursor-offset"],
       args: {
         name: "int",
         default: "Infinity",
@@ -329,6 +329,8 @@ export const completion: Fig.Spec = {
     name: "file, dir or glob",
     template: ["filepaths", "folders"],
     isOptional: true,
-    variadic: true,
+    isVariadic: true,
   },
 };
+
+export default completionSpec;

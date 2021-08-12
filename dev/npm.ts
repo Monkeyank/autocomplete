@@ -76,7 +76,7 @@ const npmInstallOptions: Fig.Option[] = [
   },
 ];
 
-export const completionSpec: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "npm",
   description: "Node package manager",
   subcommands: [
@@ -88,7 +88,7 @@ export const completionSpec: Fig.Spec = {
         isOptional: true,
         generators: searchGenerator,
         debounce: true,
-        variadic: true,
+        isVariadic: true,
       },
       options: [
         {
@@ -203,7 +203,7 @@ export const completionSpec: Fig.Spec = {
         isOptional: true,
         generators: searchGenerator,
         debounce: true,
-        variadic: true,
+        isVariadic: true,
       },
     },
     {
@@ -266,7 +266,7 @@ export const completionSpec: Fig.Spec = {
         {
           name: "package",
           generators: dependenciesGenerator,
-          variadic: true,
+          isVariadic: true,
         },
       ],
       options: npmInstallOptions,
@@ -278,7 +278,7 @@ export const completionSpec: Fig.Spec = {
         {
           name: "package",
           generators: dependenciesGenerator,
-          variadic: true,
+          isVariadic: true,
         },
       ],
       options: npmInstallOptions,
@@ -290,7 +290,7 @@ export const completionSpec: Fig.Spec = {
         {
           name: "package",
           generators: dependenciesGenerator,
-          variadic: true,
+          isVariadic: true,
         },
       ],
       options: npmInstallOptions,
@@ -302,7 +302,7 @@ export const completionSpec: Fig.Spec = {
         {
           name: "package",
           generators: dependenciesGenerator,
-          variadic: true,
+          isVariadic: true,
         },
       ],
       options: npmInstallOptions,
@@ -314,7 +314,7 @@ export const completionSpec: Fig.Spec = {
         {
           name: "package",
           generators: dependenciesGenerator,
-          variadic: true,
+          isVariadic: true,
         },
       ],
       options: npmInstallOptions,
@@ -329,3 +329,5 @@ export const completionSpec: Fig.Spec = {
     { name: "whoami", description: "display npm username" },
   ],
 };
+
+export default completionSpec;

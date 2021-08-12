@@ -1,4 +1,4 @@
-export const completion: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "fd",
   description: "A simple, fast and user-friendly alternative to 'find'",
   options: [
@@ -145,7 +145,9 @@ export const completion: Fig.Spec = {
       description: "The root directories for the filesystem search",
       template: ["folders"],
       isOptional: true,
-      variadic: true,
+      isVariadic: true,
     },
   ],
 };
+
+export default completionSpec;

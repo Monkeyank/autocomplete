@@ -1,4 +1,4 @@
-export const completion: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "googler",
   description: "Google from the command-line",
   options: [
@@ -76,7 +76,7 @@ export const completion: Fig.Spec = {
       description: "Set output colors",
       args: {
         name: "colors",
-        variadic: true,
+        isVariadic: true,
       },
     },
     {
@@ -186,7 +186,9 @@ export const completion: Fig.Spec = {
   args: {
     name: "keyword",
     description: "Search keywords",
-    variadic: true,
+    isVariadic: true,
     isOptional: true,
   },
 };
+
+export default completionSpec;

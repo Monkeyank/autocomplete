@@ -1,4 +1,4 @@
-export const completion: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "tsc",
   description: "CLI tool for TypeScript compiler",
   options: [
@@ -75,7 +75,7 @@ export const completion: Fig.Spec = {
       args: {
         name: "dir",
         template: "folders",
-        variadic: true,
+        isVariadic: true,
       },
     },
     {
@@ -84,7 +84,7 @@ export const completion: Fig.Spec = {
       args: {
         name: "files",
         template: "filepaths",
-        variadic: true,
+        isVariadic: true,
       },
     },
     {
@@ -364,7 +364,7 @@ export const completion: Fig.Spec = {
       args: {
         name: "list",
         template: "filepaths",
-        variadic: true,
+        isVariadic: true,
       },
     },
     {
@@ -537,7 +537,7 @@ export const completion: Fig.Spec = {
       description: "Specify a list of language service plugins to include",
       args: {
         name: "plugins",
-        variadic: true,
+        isVariadic: true,
       },
     },
     {
@@ -590,7 +590,7 @@ export const completion: Fig.Spec = {
       args: {
         name: "string",
         template: "folders",
-        variadic: true,
+        isVariadic: true,
       },
     },
     {
@@ -694,7 +694,7 @@ export const completion: Fig.Spec = {
       args: {
         name: "folders",
         template: "folders",
-        variadic: true,
+        isVariadic: true,
       },
     },
     {
@@ -703,7 +703,7 @@ export const completion: Fig.Spec = {
         "Specify type package names to be included without being referenced in a source file.",
       args: {
         name: "package names",
-        variadic: true,
+        isVariadic: true,
       },
     },
     {
@@ -740,3 +740,5 @@ export const completion: Fig.Spec = {
     },
   },
 };
+
+export default completionSpec;

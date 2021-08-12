@@ -8,7 +8,7 @@ const envNameGenerator: Fig.Generator = {
   },
 };
 
-export const completionSpec: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "amplify",
   description:
     "A set of tools and services to help front-end web and mobile developers build scalable full stack applications",
@@ -67,7 +67,7 @@ export const completionSpec: Fig.Spec = {
             {
               name: "--name",
               description: "Mandatory flag.",
-              required: true,
+              isRequired: true,
               args: {
                 name: "env-name",
                 description: "Env name",
@@ -83,7 +83,7 @@ export const completionSpec: Fig.Spec = {
             {
               name: "--name",
               description: "Mandatory flag.",
-              required: true,
+              isRequired: true,
               args: {
                 name: "env-name",
                 description: "Env name",
@@ -93,7 +93,7 @@ export const completionSpec: Fig.Spec = {
             {
               name: "--config",
               description: "Specify provider configs.",
-              required: true,
+              isRequired: true,
               args: {},
             },
             {
@@ -116,3 +116,4 @@ export const completionSpec: Fig.Spec = {
     },
   ],
 };
+export default completionSpec;

@@ -174,7 +174,7 @@ const sharedOptions: Fig.Option[] = [
   },
 ];
 
-export const completion: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "jq",
   description: "Command-line JSON processor",
   options: sharedOptions,
@@ -187,7 +187,9 @@ export const completion: Fig.Spec = {
       name: "files",
       template: "filepaths",
       isOptional: true,
-      variadic: true,
+      isVariadic: true,
     },
   ],
 };
+
+export default completionSpec;

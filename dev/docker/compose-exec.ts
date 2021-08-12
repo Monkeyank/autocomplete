@@ -9,7 +9,7 @@ const getServices: Fig.Generator = {
   splitOn: "\n",
 };
 
-export const completionSpec: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "exec",
   description: "Execute a command in a running container",
   args: [{ generators: getServices }],
@@ -47,7 +47,7 @@ export const completionSpec: Fig.Spec = {
       description: "not supported in API < 1.25)",
       args: {
         name: "KEY=VAL",
-        variadic: true,
+        isVariadic: true,
       },
     },
     {
@@ -59,3 +59,5 @@ export const completionSpec: Fig.Spec = {
     },
   ],
 };
+
+export default completionSpec;

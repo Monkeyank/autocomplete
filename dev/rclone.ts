@@ -88,7 +88,7 @@ const checkFlags: Array<Fig.Option> = [
   },
 ];
 
-export const completion: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "rclone",
   description: "The Swiss army knife of cloud storage",
   subcommands: [
@@ -244,7 +244,7 @@ export const completion: Fig.Spec = {
         cryptedremote,
         {
           name: "encryptedfilename",
-          variadic: true,
+          isVariadic: true,
         },
       ],
       options: [
@@ -695,3 +695,5 @@ export const completion: Fig.Spec = {
     },
   ],
 };
+
+export default completionSpec;

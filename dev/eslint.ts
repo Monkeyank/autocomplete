@@ -1,4 +1,4 @@
-export const completion: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "eslint",
   description: "Pluggable JavaScript linter",
   options: [
@@ -25,7 +25,7 @@ export const completion: Fig.Spec = {
              * We want to filter over this static list of suggestions
              * so we don't suggest envs that have already been entered.
              * */
-            filterTerm: ",",
+            getQueryTerm: ",",
             trigger: ",",
             custom: async (ctx) => {
               const suggestions = [
@@ -221,12 +221,12 @@ export const completion: Fig.Spec = {
     {
       name: "--color",
       description: "Force enabling of color",
-      exclusive: ["--no-color"],
+      exclusiveOn: ["--no-color"],
     },
     {
       name: "--no-color",
       description: "Force disabling of color",
-      exclusive: ["--color"],
+      exclusiveOn: ["--color"],
     },
     {
       name: "--no-inline-config",
@@ -291,6 +291,8 @@ export const completion: Fig.Spec = {
     name: "file|dir|glob",
     description: "File(s) to lint",
     template: ["filepaths", "folders"],
-    variadic: true,
+    isVariadic: true,
   },
 };
+
+export default completionSpec;

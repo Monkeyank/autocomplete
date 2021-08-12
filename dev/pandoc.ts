@@ -68,7 +68,7 @@ const styleFileArg: Fig.Arg = {
   ],
 };
 
-export const completion: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "pandoc",
   description: "A universal document converter",
 
@@ -563,7 +563,7 @@ export const completion: Fig.Spec = {
         name: "number",
         description:
           "The first number is added to the section number for top-level headings, the second for second-level headings, and so on",
-        variadic: true,
+        isVariadic: true,
       },
     },
     {
@@ -736,13 +736,13 @@ export const completion: Fig.Spec = {
       name: "--natbib",
       description:
         "Use natbib for citations in LaTeX output. It is intended for use in producing a LaTeX file that can be processed with bibtex",
-      exclusive: ["--citeproc"],
+      exclusiveOn: ["--citeproc"],
     },
     {
       name: "--biblatex",
       description:
         "Use biblatex for citations in LaTeX output. It is intended for use in producing a LaTeX file that can be processed with bibtex or biber",
-      exclusive: ["--citeproc"],
+      exclusiveOn: ["--citeproc"],
     },
     {
       name: "--mathjax",
@@ -792,6 +792,8 @@ export const completion: Fig.Spec = {
   args: {
     name: "input file(s)",
     template: "filepaths",
-    variadic: true,
+    isVariadic: true,
   },
 };
+
+export default completionSpec;

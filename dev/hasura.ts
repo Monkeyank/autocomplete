@@ -75,7 +75,7 @@ const actionsSharedOptions: Fig.Option[] = [
   insecureSkipTLSVerifyOption,
 ];
 
-export const completion: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "hasura",
   description: "Hasura GraphQL engine command line tool",
   subcommands: [
@@ -98,7 +98,7 @@ export const completion: Fig.Spec = {
           args: {
             name: "action name",
             isOptional: true,
-            variadic: true,
+            isVariadic: true,
           },
         },
         {
@@ -462,7 +462,7 @@ export const completion: Fig.Spec = {
               description: "Name of Postgres schema to export as a migration",
               args: {
                 name: "strings",
-                variadic: true,
+                isVariadic: true,
               },
             },
             {
@@ -735,3 +735,5 @@ export const completion: Fig.Spec = {
   ],
   options: sharedOptions,
 };
+
+export default completionSpec;

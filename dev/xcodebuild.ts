@@ -1,4 +1,4 @@
-export const completion: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "xcodebuild",
   description: "Build Xcode projects",
   options: [
@@ -365,7 +365,7 @@ export const completion: Fig.Spec = {
         "Specifies multiple optional ISO 639-1 languages included in a localization export",
       args: {
         name: "lanugages",
-        variadic: true,
+        isVariadic: true,
       },
     },
     {
@@ -397,7 +397,7 @@ export const completion: Fig.Spec = {
       name: "-only-testing",
       description:
         "Constrains testing by specifying tests to include, and excluding other tests",
-      exclusive: ["-skip-testing"],
+      exclusiveOn: ["-skip-testing"],
     },
     {
       name: "-only-testing:",
@@ -407,13 +407,13 @@ export const completion: Fig.Spec = {
       args: {
         name: "Test Identifier",
       },
-      exclusive: ["-skip-testing"],
+      exclusiveOn: ["-skip-testing"],
     },
     {
       name: "-skip-testing",
       description:
         "Constrains testing by specifying tests to exclude, but including other tests",
-      exclusive: ["-only-testing"],
+      exclusiveOn: ["-only-testing"],
     },
     {
       name: "-skip-testing:",
@@ -423,7 +423,7 @@ export const completion: Fig.Spec = {
       args: {
         name: "Test Identifier",
       },
-      exclusive: ["-only-testing"],
+      exclusiveOn: ["-only-testing"],
     },
     {
       name: "-test-timeouts-enabled",
@@ -534,3 +534,5 @@ export const completion: Fig.Spec = {
     },
   ],
 };
+
+export default completionSpec;
